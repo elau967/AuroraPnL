@@ -1,7 +1,7 @@
 [project]
 name = "aurorapnl"
 version = "0.1.0"
-description = "Add your description here"
+description = "A Stock Profit and Loss Calculator App"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
