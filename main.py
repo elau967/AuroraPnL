@@ -8,11 +8,11 @@ def upload_csv():
 
     # If a CSV file is received, read it and make a "Total Value" column
     if uploadedFile:
-        df = pd.read_csv(uploadedFile, dtype = {"Ticker": str, "Cost Basis": float, "Amount of Shares": float})
+        df = pd.read_csv(uploadedFile, dtype = {"Ticker Symbol": str, "Cost Basis": float, "Amount of Shares": float})
         df["Total Value"] = df["Cost Basis"] * df["Amount of Shares"]
 
-        # Combine duplicate ticker names, sum columns, and calculate new cost basis
-        df = df.groupby("Ticker").agg({
+        # Combine duplicate ticker symbols, sum columns, and calculate new cost basis
+        df = df.groupby("Ticker Symbol").agg({
             "Total Value": "sum",
             "Amount of Shares": "sum"
         }).reset_index()
