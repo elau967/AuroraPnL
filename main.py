@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
 import yfinance as yf
+from streamlit_option_menu import option_menu
 
 # Allow the user to enter data and save as a CSV file
 def create_and_edit_csv():
@@ -46,10 +47,27 @@ def upload_csv():
         st.write(df)
         return df
 
+# Create a sidebar
+def sidebar():
+    with st.sidebar:
+        selected = option_menu(
+            menu_title = None, 
+            options = ["Home", "Download", "Upload", "Contact"],
+            icons = ["cast", "cloud-download", "cloud-upload", "person-badge"],
+            default_index = 0
+        )
+        return selected
+
 def main():
-    st.write("Aurora PnL")
-    create_and_edit_csv()
-    df = upload_csv()
+    selected = sidebar()
+    if selected == "Home":
+        st.title("Aurora PnL")
+    elif selected == "Download":
+        create_and_edit_csv()
+    elif selected == "Upload":
+        df = upload_csv()
+    elif selected == "Contact":
+        st.write("todo")
 
 if __name__ == "__main__":
     main()
