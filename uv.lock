@@ -38,6 +38,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "pandas" },
     { name = "streamlit" },
+    { name = "streamlit-option-menu" },
     { name = "yfinance" },
 ]
 
@@ -45,6 +46,7 @@ dependencies = [
 requires-dist = [
     { name = "pandas", specifier = ">=2.2.3" },
     { name = "streamlit", specifier = ">=1.42.2" },
+    { name = "streamlit-option-menu", specifier = ">=0.4.0" },
     { name = "yfinance", specifier = ">=0.2.54" },
 ]
 
@@ -738,6 +740,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/08/58/b1875ccb6901cec7a721059bfd9122107d29e0b0ccfdcea9d353af6b5c52/streamlit-1.42.2.tar.gz", hash = "sha256:62026dbdcb482790933f658b096d7dd58fa70da89c1f06fbc3658b91dcd4dab2", size = 9169615 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e4/08/c962e38f4450dafb98af49f8988a736dd67ae9cc26a5704c43269f506bc8/streamlit-1.42.2-py2.py3-none-any.whl", hash = "sha256:e2516c7fcd17a11a85cc1999fae58ace0a6458e2b4c1a411ed3d75b1aee2eb93", size = 9559800 },
+]
+
+[[package]]
+name = "streamlit-option-menu"
+version = "0.4.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "streamlit" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/5e/27/72dc451cdaef1714fd0d75cc430e50a06c12c9046295fdf1f94af1b766eb/streamlit-option-menu-0.4.0.tar.gz", hash = "sha256:48ec69d59e547fa2fa4bfae001620df8af56a80de2f765ddbb9fcbfb84017129", size = 827290 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fd/52/2f525ad4262dc83d67297f69ec5afcee1438b9e9ae22aa318396725ddbed/streamlit_option_menu-0.4.0-py3-none-any.whl", hash = "sha256:a55fc7554047b6db371595af2182e435b8a2c715ee6124e8543685bd4670b07e", size = 829255 },
 ]
 
 [[package]]
