@@ -1,5 +1,5 @@
 [project]
-name = "AuroraPnL"
+name = "aurorapnl"
 version = "0.1.0"
 description = "A Stock Profit and Loss Calculator App"
 readme = "README.md"
