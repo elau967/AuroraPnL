@@ -43,11 +43,16 @@ def upload_csv():
         }).reset_index()
         df["Cost Basis"] = df["Total Value"] / df["Amount of Shares"]
 
+        # Calculate the portfolio allocation of each stock
+        totalShares = df["Amount of Shares"].sum()
+        df["Portfolio Allocation"] = (df["Amount of Shares"] / totalShares) * 100
+
         # Display and return the dataframe
         st.dataframe(df.style.format({
             "Cost Basis": "${:.2f}",
             "Total Value": "${:.2f}",
-            "Amount of Shares": "{:.2f}"
+            "Amount of Shares": "{:.2f}",
+            "Portfolio Allocation": "{:.2f}%"
         }), width = 1080)
         return df
 
