@@ -9,7 +9,7 @@ def create_and_edit_csv():
     emptyFrame = pd.DataFrame(columns = ["Ticker Symbol", "Cost Basis", "Amount of Shares"])
 
     # Allow user to input data into dataframe and validate it
-    st.data_editor(emptyFrame, hide_index = True, num_rows = "dynamic", column_config = {
+    st.data_editor(emptyFrame, width = 1080, hide_index = True, num_rows = "dynamic", column_config = {
         "Ticker Symbol": st.column_config.TextColumn(
             help = "Enter a ticker symbol such as AAPL", 
             required = True,
@@ -44,7 +44,11 @@ def upload_csv():
         df["Cost Basis"] = df["Total Value"] / df["Amount of Shares"]
 
         # Display and return the dataframe
-        st.write(df)
+        st.dataframe(df.style.format({
+            "Cost Basis": "${:.2f}",
+            "Total Value": "${:.2f}",
+            "Amount of Shares": "{:.2f}"
+        }), width = 1080)
         return df
 
 # Create a sidebar
