@@ -53,7 +53,7 @@ def upload_csv():
             "Total Value": "${:.2f}",
             "Amount of Shares": "{:.2f}",
             "Portfolio Allocation": "{:.2f}%"
-        }), width = 1080)
+        }), width = 1080, hide_index = True)
         return df
 
 # Create a sidebar
