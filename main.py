@@ -34,6 +34,7 @@ def upload_csv():
     # If a CSV file is received, read it and make a "Total Value" column
     if uploadedFile:
         df = pd.read_csv(uploadedFile, dtype = {"Ticker Symbol": str, "Cost Basis": float, "Amount of Shares": float})
+        df.columns = df.columns.str.strip()
         df["Total Value"] = df["Cost Basis"] * df["Amount of Shares"]
 
         # Combine duplicate ticker symbols, sum columns, and calculate new cost basis
