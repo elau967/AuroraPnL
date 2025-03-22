@@ -31,29 +31,24 @@ def upload_csv():
     # Prompt a user to upload a CSV file
     uploadedFile = st.file_uploader("Upload your CSV file", type = "csv")
 
-    # If a CSV file is received, read it and make a "Total Value" column
+    # If a CSV file is received, read it and make a "Total Cost" column
     if uploadedFile:
         df = pd.read_csv(uploadedFile, dtype = {"Ticker Symbol": str, "Cost Basis": float, "Amount of Shares": float})
         df.columns = df.columns.str.strip()
-        df["Total Value"] = df["Cost Basis"] * df["Amount of Shares"]
+        df["Total Cost"] = df["Cost Basis"] * df["Amount of Shares"]
 
         # Combine duplicate ticker symbols, sum columns, and calculate new cost basis
         df = df.groupby("Ticker Symbol").agg({
-            "Total Value": "sum",
+            "Total Cost": "sum",
             "Amount of Shares": "sum"
         }).reset_index()
-        df["Cost Basis"] = df["Total Value"] / df["Amount of Shares"]
-
-        # Calculate the portfolio allocation of each stock
-        totalShares = df["Amount of Shares"].sum()
-        df["Portfolio Allocation"] = (df["Amount of Shares"] / totalShares) * 100
+        df["Cost Basis"] = df["Total Cost"] / df["Amount of Shares"]
 
         # Display and return the dataframe
         st.dataframe(df.style.format({
             "Cost Basis": "${:.2f}",
-            "Total Value": "${:.2f}",
-            "Amount of Shares": "{:.2f}",
-            "Portfolio Allocation": "{:.2f}%"
+            "Total Cost": "${:.2f}",
+            "Amount of Shares": "{:.2f}"
         }), width = 1080, hide_index = True)
         return df
 
