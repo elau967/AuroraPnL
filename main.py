@@ -29,7 +29,7 @@ def create_and_edit_csv():
 # Receive a CSV file and calculate and display data
 def upload_csv():
     # Prompt a user to upload a CSV file
-    uploadedFile = st.file_uploader("Upload your CSV file", type = "csv")
+    uploadedFile = st.file_uploader("Upload your CSV file", type = "csv", label_visibility = "collapsed")
 
     # If a CSV file is received, read it and make a "Total Cost" column
     if uploadedFile:
@@ -65,14 +65,17 @@ def sidebar():
 
 def main():
     selected = sidebar()
+
     if selected == "Home":
-        st.title("Aurora PnL")
+        st.header("Aurora PnL", divider = "blue", anchor = False)
     elif selected == "Download":
+        st.header("Insert and download your data as a CSV file", divider = "blue", anchor = False)
         create_and_edit_csv()
     elif selected == "Upload":
+        st.header("Upload and display your data", divider = "blue", anchor = False)
         df = upload_csv()
     elif selected == "Contact":
-        st.write("todo")
+        st.header("TODO", divider = "blue", anchor = False)
 
 if __name__ == "__main__":
     main()
