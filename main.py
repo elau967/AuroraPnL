@@ -46,9 +46,9 @@ def upload_csv():
 
         # Display and return the dataframe
         st.dataframe(df.style.format({
-            "Cost Basis": "${:.2f}",
-            "Total Cost": "${:.2f}",
-            "Amount of Shares": "{:.2f}"
+            "Cost Basis": "${:,.2f}",
+            "Total Cost": "${:,.2f}",
+            "Amount of Shares": "{:,.4f}"
         }), width = 1080, hide_index = True)
         return df
 
