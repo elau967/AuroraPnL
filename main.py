@@ -31,10 +31,15 @@ def upload_csv():
     # Prompt a user to upload a CSV file
     uploadedFile = st.file_uploader("Upload your CSV file", type = "csv", label_visibility = "collapsed")
 
-    # If a CSV file is received, read it and make a "Total Cost" column
+    # If a CSV file is received, read it and assign data types
     if uploadedFile:
         df = pd.read_csv(uploadedFile, dtype = {"Ticker Symbol": str, "Cost Basis": float, "Amount of Shares": float})
+
+        # Get rid of whitespace
         df.columns = df.columns.str.strip()
+        df["Ticker Symbol"] = df["Ticker Symbol"].str.replace(" ", "")
+
+        # Make a "Total Cost" column
         df["Total Cost"] = df["Cost Basis"] * df["Amount of Shares"]
 
         # Combine duplicate ticker symbols, sum columns, and calculate new cost basis
