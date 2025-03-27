@@ -37,7 +37,7 @@ def upload_csv():
 
         # Get rid of whitespace
         df.columns = df.columns.str.strip()
-        df["Ticker Symbol"] = df["Ticker Symbol"].str.replace(" ", "")
+        df["Ticker Symbol"] = df["Ticker Symbol"].str.replace(" ", "").str.upper()
 
         # Make a "Total Cost" column
         df["Total Cost"] = df["Cost Basis"] * df["Amount of Shares"]
