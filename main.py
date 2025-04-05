@@ -26,6 +26,17 @@ def create_and_edit_csv():
             min_value = 0.01)
         })
 
+# Get the current price of a stock
+def get_stock_price(df):
+    currentPrices = []
+    stocks = df["Ticker Symbol"]
+
+    for stock in stocks:
+        data = yf.Ticker(stock).history(period = "1d", interval = "1m")
+        currentPrices.append(round(data["Close"].iloc[-1], 2))
+
+    return currentPrices
+
 # Receive a CSV file and calculate and display data
 def upload_csv():
     # Prompt a user to upload a CSV file
@@ -49,13 +60,24 @@ def upload_csv():
         }).reset_index()
         df["Cost Basis"] = df["Total Cost"] / df["Amount of Shares"]
 
+        # Get current prices of stocks
+        currentPrices = get_stock_price(df)
+
+        # 
+        df["Current Price"] = currentPrices
+        df["Market Value"] = round((df["Current Price"] * df["Amount of Shares"]), 2)
+        totalMktVal = round(sum(df["Market Value"]), 2)
+        df["Portfolio Allocation"] = (df["Market Value"] / totalMktVal) * 100
+
         # Display and return the dataframe
         st.dataframe(df.style.format({
             "Cost Basis": "${:,.2f}",
             "Total Cost": "${:,.2f}",
-            "Amount of Shares": "{:,.4f}"
+            "Amount of Shares": "{:,.4f}",
+            "Current Price": "${:,.2f}",
+            "Market Value": "${:,.2f}",
+            "Portfolio Allocation": "{:,.2f}%"
         }), width = 1080, hide_index = True)
-        return df
 
 # Create a sidebar
 def sidebar():
@@ -78,7 +100,7 @@ def main():
         create_and_edit_csv()
     elif selected == "Upload":
         st.header("Upload and display your data", divider = "blue", anchor = False)
-        df = upload_csv()
+        upload_csv()
     elif selected == "Contact":
         st.header("TODO", divider = "blue", anchor = False)
 
