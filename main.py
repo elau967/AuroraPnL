@@ -77,9 +77,8 @@ def upload_csv():
             "Amount of Shares": "{:,.4f}",
             "Current Price": "${:,.2f}",
             "Market Value": "${:,.2f}",
-            "Portfolio Allocation": "{:,.2f}%",
             "P&L": "${:,.2f}"
-        }), width = 1080, hide_index = True)
+        }), width = 1080, hide_index = True, column_config = {"Portfolio Allocation": None})
 
         # Hide dataframe tools
         st.markdown(
