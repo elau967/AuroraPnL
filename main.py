@@ -63,11 +63,12 @@ def upload_csv():
         # Get current prices of stocks
         currentPrices = get_stock_price(df)
 
-        # 
+        # Calculate new columns
         df["Current Price"] = currentPrices
         df["Market Value"] = round((df["Current Price"] * df["Amount of Shares"]), 2)
         totalMktVal = round(sum(df["Market Value"]), 2)
         df["Portfolio Allocation"] = (df["Market Value"] / totalMktVal) * 100
+        df["P&L"] = ((df["Current Price"] - df["Cost Basis"]) * df["Amount of Shares"])
 
         # Display and return the dataframe
         st.dataframe(df.style.format({
@@ -76,8 +77,21 @@ def upload_csv():
             "Amount of Shares": "{:,.4f}",
             "Current Price": "${:,.2f}",
             "Market Value": "${:,.2f}",
-            "Portfolio Allocation": "{:,.2f}%"
+            "Portfolio Allocation": "{:,.2f}%",
+            "P&L": "${:,.2f}"
         }), width = 1080, hide_index = True)
+
+        # Hide dataframe tools
+        st.markdown(
+                """
+                <style>
+                [data-testid="stElementToolbar"] {
+                    display: none;
+                }
+                </style>
+                """,
+                unsafe_allow_html=True
+            )
 
 # Create a sidebar
 def sidebar():
