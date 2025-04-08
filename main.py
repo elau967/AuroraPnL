@@ -31,11 +31,15 @@ def get_stock_price(df):
     currentPrices = []
     stocks = df["Ticker Symbol"]
 
-    for stock in stocks:
-        data = yf.Ticker(stock).history(period = "1d", interval = "1m")
-        currentPrices.append(round(data["Close"].iloc[-1], 2))
+    try:
+        for stock in stocks:
+            data = yf.Ticker(stock).history(period = "1d", interval = "1m")
+            currentPrices.append(round(data["Close"].iloc[-1], 2))
 
-    return currentPrices
+        return currentPrices
+    
+    except IndexError:
+        st.error(f"The ticker {stock} could not be found")
 
 # Receive a CSV file and calculate and display data
 def upload_csv():
