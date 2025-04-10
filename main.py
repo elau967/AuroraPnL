@@ -75,8 +75,9 @@ def get_stock_price(df):
 
         return currentPrices
     
+    # Catch invalid ticker symbols
     except IndexError:
-        st.error(f"The ticker {stock} could not be found")
+        st.error(f'The ticker "{stock}" could not be found. Please go back and edit your file at the Download section.')
 
 # Receive a CSV file and calculate and display data
 def upload_csv():
@@ -84,8 +85,13 @@ def upload_csv():
     uploadedFile = st.file_uploader("Upload your CSV file", type = "csv", label_visibility = "collapsed")
 
     # If a CSV file is received, read it and assign data types
-    if uploadedFile:
-        df = pd.read_csv(uploadedFile, dtype = {"Ticker Symbol": str, "Cost Basis": float, "Amount of Shares": float})
+    try:
+        if uploadedFile:
+            df = pd.read_csv(uploadedFile, dtype = {"Ticker Symbol": str, "Cost Basis": float, "Amount of Shares": float})
+
+    # Catch invalid values in "Cost Basis" and "Amount of Shares" column
+    except ValueError:
+        st.error("The values of your file are incorrect. Please go back and edit your file at the Download section.")
 
         try:
             # Get rid of whitespace
@@ -115,8 +121,15 @@ def upload_csv():
             # Display the data
             display_data(df)
 
+        # Catch invalid column headers
         except KeyError:
-            st.error("The headers of your file are incorrect. Please go back and edit your file at the Download section.")
+            st.error("The column headers of your file are incorrect. Please go back and edit your file at the Download section.")
+        
+        # Pass both because ValueError in upload_csv and IndexError in get_stock_price will cover
+        except UnboundLocalError:
+            pass
+        except TypeError:
+            pass
 
 # Helper function for upload_csv that displays data
 def display_data(df):
