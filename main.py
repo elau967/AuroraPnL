@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
 import yfinance as yf
+import numpy as np
 from streamlit_option_menu import option_menu
 
 # Allow the user to enter data and save as a CSV file
@@ -37,6 +38,11 @@ def create_and_edit_csv():
         if uploadedFile:
             df = pd.read_csv(uploadedFile)
             df.columns = expectedColumns
+
+            # Replace invalid values with NaN
+            df["Ticker Symbol"] = df["Ticker Symbol"].apply(lambda x: x if x.isalpha() else np.nan)
+            df["Cost Basis"] = pd.to_numeric(df["Cost Basis"], errors="coerce")
+            df["Amount of Shares"] = pd.to_numeric(df["Amount of Shares"], errors="coerce")
 
             # Allow user to input/edit data and validate it
             st.data_editor(df, width = 1080, hide_index = True, num_rows = "dynamic", column_config = {
