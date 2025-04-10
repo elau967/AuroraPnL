@@ -5,26 +5,56 @@ from streamlit_option_menu import option_menu
 
 # Allow the user to enter data and save as a CSV file
 def create_and_edit_csv():
-    # Create an empty dataframe
-    emptyFrame = pd.DataFrame(columns = ["Ticker Symbol", "Cost Basis", "Amount of Shares"])
+    answer = st.selectbox("Would you like to create a new file or edit a previously downloaded file?", ["Create", "Edit"])
+    expectedColumns = ["Ticker Symbol", "Cost Basis", "Amount of Shares"]
 
-    # Allow user to input data into dataframe and validate it
-    st.data_editor(emptyFrame, width = 1080, hide_index = True, num_rows = "dynamic", column_config = {
-        "Ticker Symbol": st.column_config.TextColumn(
-            help = "Enter a ticker symbol such as AAPL", 
-            required = True,
-            max_chars = 5,
-            validate = r"^[a-zA-Z]+$"),
-        "Cost Basis": st.column_config.NumberColumn(
-            help = "Enter the average price paid per share such as 98.21", 
-            required = True, 
-            min_value = 0.01,
-            format = "%.2f"),
-        "Amount of Shares": st.column_config.NumberColumn(
-            help = "Enter the amount of shares you own such as 100", 
-            required = True,
-            min_value = 0.01)
-        })
+    if answer == "Create":
+        # Create an empty dataframe
+        emptyFrame = pd.DataFrame(columns = expectedColumns)
+
+        # Allow user to input data into dataframe and validate it
+        st.data_editor(emptyFrame, width = 1080, hide_index = True, num_rows = "dynamic", column_config = {
+            "Ticker Symbol": st.column_config.TextColumn(
+                help = "Enter a ticker symbol such as AAPL", 
+                required = True,
+                max_chars = 5,
+                validate = r"^[a-zA-Z]+$"),
+            "Cost Basis": st.column_config.NumberColumn(
+                help = "Enter the average price paid per share such as 98.21", 
+                required = True, 
+                min_value = 0.01,
+                format = "%.2f"),
+            "Amount of Shares": st.column_config.NumberColumn(
+                help = "Enter the amount of shares you own such as 100", 
+                required = True,
+                min_value = 0.01)
+            })
+    else:
+        # Prompt a user to upload a CSV file
+        uploadedFile = st.file_uploader("Upload your CSV file", type = "csv", label_visibility = "collapsed")
+
+        # If a CSV file is received, read it and replace the column names
+        if uploadedFile:
+            df = pd.read_csv(uploadedFile)
+            df.columns = expectedColumns
+
+            # Allow user to input/edit data and validate it
+            st.data_editor(df, width = 1080, hide_index = True, num_rows = "dynamic", column_config = {
+            "Ticker Symbol": st.column_config.TextColumn(
+                help = "Enter a ticker symbol such as AAPL", 
+                required = True,
+                max_chars = 5,
+                validate = r"^[a-zA-Z]+$"),
+            "Cost Basis": st.column_config.NumberColumn(
+                help = "Enter the average price paid per share such as 98.21", 
+                required = True, 
+                min_value = 0.01,
+                format = "%.2f"),
+            "Amount of Shares": st.column_config.NumberColumn(
+                help = "Enter the amount of shares you own such as 100", 
+                required = True,
+                min_value = 0.01)
+            })
 
 # Get the current price of a stock
 def get_stock_price(df):
