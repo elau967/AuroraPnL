@@ -93,43 +93,43 @@ def upload_csv():
     except ValueError:
         st.error("The values of your file are incorrect. Please go back and edit your file at the Download section.")
 
-        try:
-            # Get rid of whitespace
-            df.columns = df.columns.str.strip()
-            df["Ticker Symbol"] = df["Ticker Symbol"].str.replace(" ", "").str.upper()
+    try:
+        # Get rid of whitespace
+        df.columns = df.columns.str.strip()
+        df["Ticker Symbol"] = df["Ticker Symbol"].str.replace(" ", "").str.upper()
 
-            # Make a "Total Cost" column
-            df["Total Cost"] = df["Cost Basis"] * df["Amount of Shares"]
+        # Make a "Total Cost" column
+        df["Total Cost"] = df["Cost Basis"] * df["Amount of Shares"]
 
-            # Combine duplicate ticker symbols, sum columns, and calculate new cost basis
-            df = df.groupby("Ticker Symbol").agg({
-                "Total Cost": "sum",
-                "Amount of Shares": "sum"
-            }).reset_index()
-            df["Cost Basis"] = df["Total Cost"] / df["Amount of Shares"]
+        # Combine duplicate ticker symbols, sum columns, and calculate new cost basis
+        df = df.groupby("Ticker Symbol").agg({
+            "Total Cost": "sum",
+            "Amount of Shares": "sum"
+        }).reset_index()
+        df["Cost Basis"] = df["Total Cost"] / df["Amount of Shares"]
 
-            # Get current prices of stocks
-            currentPrices = get_stock_price(df)
+        # Get current prices of stocks
+        currentPrices = get_stock_price(df)
 
-            # Calculate new columns
-            df["Current Price"] = currentPrices
-            df["Market Value"] = round((df["Current Price"] * df["Amount of Shares"]), 2)
-            totalMktVal = round(sum(df["Market Value"]), 2)
-            df["Portfolio Allocation"] = (df["Market Value"] / totalMktVal) * 100
-            df["P&L"] = ((df["Current Price"] - df["Cost Basis"]) * df["Amount of Shares"])
+        # Calculate new columns
+        df["Current Price"] = currentPrices
+        df["Market Value"] = round((df["Current Price"] * df["Amount of Shares"]), 2)
+        totalMktVal = round(sum(df["Market Value"]), 2)
+        df["Portfolio Allocation"] = (df["Market Value"] / totalMktVal) * 100
+        df["P&L"] = ((df["Current Price"] - df["Cost Basis"]) * df["Amount of Shares"])
 
-            # Display the data
-            display_data(df)
+        # Display the data
+        display_data(df)
 
-        # Catch invalid column headers
-        except KeyError:
-            st.error("The column headers of your file are incorrect. Please go back and edit your file at the Download section.")
+    # Catch invalid column headers
+    except KeyError:
+        st.error("The column headers of your file are incorrect. Please go back and edit your file at the Download section.")
         
-        # Pass both because ValueError in upload_csv and IndexError in get_stock_price will cover
-        except UnboundLocalError:
-            pass
-        except TypeError:
-            pass
+    # Pass both because ValueError in upload_csv and IndexError in get_stock_price will cover
+    except UnboundLocalError:
+        pass
+    except TypeError:
+        pass
 
 # Helper function for upload_csv that displays data
 def display_data(df):
