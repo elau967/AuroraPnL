@@ -110,6 +110,11 @@ def upload_csv():
         df["Portfolio Allocation"] = (df["Market Value"] / totalMktVal) * 100
         df["P&L"] = ((df["Current Price"] - df["Cost Basis"]) * df["Amount of Shares"])
 
+        # Display the data
+        display_data(df)
+
+# Helper function for upload_csv that displays data
+def display_data(df):
         # Display and return the dataframe
         st.dataframe(df.style.format({
             "Cost Basis": "${:,.2f}",
