@@ -2,6 +2,7 @@ import pandas as pd
 import streamlit as st
 import yfinance as yf
 import numpy as np
+import matplotlib.pyplot as plt
 from streamlit_option_menu import option_menu
 
 # Allow the user to enter data and save as a CSV file
