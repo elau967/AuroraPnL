@@ -35,10 +35,11 @@ def create_and_edit_csv():
         # Prompt a user to upload a CSV file
         uploadedFile = st.file_uploader("Upload your CSV file", type = "csv", label_visibility = "collapsed")
 
-        # If a CSV file is received, read it and replace the column names
+        # If a CSV file is received, read it and replace the column headers and reformat "Ticker Symbol" values
         if uploadedFile:
             df = pd.read_csv(uploadedFile)
             df.columns = expectedColumns
+            df["Ticker Symbol"] = df["Ticker Symbol"].str.replace(" ", "").str.upper()
 
             # Replace invalid values with NaN
             df["Ticker Symbol"] = df["Ticker Symbol"].apply(lambda x: x if x.isalpha() else np.nan)
