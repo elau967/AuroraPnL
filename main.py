@@ -154,6 +154,12 @@ def display_data(df):
                 </style>
                 """,
                 unsafe_allow_html=True)
+        
+        # Create and display a pie chart
+        fig = go.Figure(data=[go.Pie(labels = df["Ticker Symbol"], values = df["Market Value"], textinfo = "label + percent",
+                                     insidetextorientation = "radial",
+                                     hovertemplate = "Ticker: %{label} | Market Value: $%{value:,.2f}")])
+        st.plotly_chart(fig)
 
 # Create a sidebar
 def sidebar():
