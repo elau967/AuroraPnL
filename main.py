@@ -132,6 +132,15 @@ def upload_csv():
     except TypeError:
         pass
 
+# Helper function that formats P&L column into US currency
+def format_currency(value):
+    return f"+${value:,.2f}" if value > 0 else f"-${abs(value):,.2f}"
+
+# Helper function that makes positive values green and negative red
+def color_text(value):
+    color = "green" if value > 0 else "red"
+    return f"color: {color};"
+
 # Helper function for upload_csv that displays data
 def display_data(df):
         # Display and return the dataframe
@@ -141,8 +150,8 @@ def display_data(df):
             "Amount of Shares": "{:,.4f}",
             "Current Price": "${:,.2f}",
             "Market Value": "${:,.2f}",
-            "P&L": "${:,.2f}"
-        }), width = 1080, hide_index = True, column_config = {"Portfolio Allocation": None})
+            "P&L": format_currency
+        }).applymap(color_text, subset = ["P&L"]), width = 1080, hide_index = True, column_config = {"Portfolio Allocation": None})
 
         # Hide dataframe tools
         st.markdown(
