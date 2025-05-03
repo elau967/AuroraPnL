@@ -134,11 +134,21 @@ def upload_csv():
 
 # Helper function that formats P&L column into US currency
 def format_currency(value):
-    return f"+${value:,.2f}" if value > 0 else f"-${abs(value):,.2f}"
+    if value > 0:
+        return f"+${value:,.2f}"  
+    elif value < 0:
+        return f"-${abs(value):,.2f}"
+    else:
+        return f"${value:.2f}"
 
 # Helper function that makes positive values green and negative red
 def color_text(value):
-    color = "green" if value > 0 else "red"
+    if value > 0:
+        color = "green"  
+    elif value < 0:
+        color = "red"
+    else:
+        color = "gray"
     return f"color: {color};"
 
 # Helper function for upload_csv that displays data
