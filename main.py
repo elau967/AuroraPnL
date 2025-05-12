@@ -188,6 +188,23 @@ def display_data(df):
         # Display chart
         st.plotly_chart(fig)
 
+# Display contact information
+def display_contact_info():
+    contact_css = """<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+                        <p style="font-size: 32px;">
+                            <i class="bi bi-github" style="font-size: 2rem; margin-right: 10px;"></i>
+                            <a href="https://github.com/elau967">elau967</a>
+                        </p>
+                        <p style="font-size: 32px;">
+                            <i class="bi bi-linkedin" style="color: #0A66C2; font-size: 2rem; margin-right: 10px;"></i>
+                            <a href="https://www.linkedin.com/in/elau967">elau967</a>
+                        </p>
+                        <p style="color: black; font-size: 32px;">
+                            <i class="bi bi-envelope" style="font-size: 2rem; margin-right: 10px"></i> 
+                            <a href="mailto:elau967@gmail.com">elau967@gmail.com</a>
+                        </p>"""
+    return st.markdown(contact_css, unsafe_allow_html=True)
+
 # Create a sidebar
 def sidebar():
     with st.sidebar:
@@ -211,7 +228,8 @@ def main():
         st.header("Upload and display your data", divider = "blue", anchor = False)
         upload_csv()
     elif selected == "Contact":
-        st.header("TODO", divider = "blue", anchor = False)
-
+        st.header("Contact Me", divider = "blue", anchor = False)
+        display_contact_info()
+    
 if __name__ == "__main__":
     main()
