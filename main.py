@@ -67,18 +67,19 @@ def create_and_edit_csv():
 # Get the current price of a stock
 def get_stock_price(df):
     currentPrices = []
-    stocks = df["Ticker Symbol"]
-
+    stocks = list(df["Ticker Symbol"])
+     
     try:
+        data = yf.download(stocks, period="1d", interval="1m", group_by="ticker")
+
         for stock in stocks:
-            data = yf.Ticker(stock).history(period = "1d", interval = "1m")
-            currentPrices.append(round(data["Close"].iloc[-1], 2))
+            price = data[stock]["Close"].iloc[-1]
+            currentPrices.append(round(price, 2))
 
         return currentPrices
-    
-    # Catch invalid ticker symbols
+   
     except IndexError:
-        st.error(f'The ticker "{stock}" could not be found. Please go back and edit your file at the Download section.')
+        st.error(f'The ticker {stock} could not be found. Please go back and edit your file at the Download section.')
 
 # Receive a CSV file and calculate and display data
 def upload_csv():
