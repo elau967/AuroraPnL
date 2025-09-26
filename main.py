@@ -70,7 +70,7 @@ def get_stock_price(df):
     stocks = list(df["Ticker Symbol"])
      
     try:
-        data = yf.download(stocks, period="1d", interval="1m", group_by="ticker")
+        data = yf.download(stocks, period="1d", interval="1m", group_by="ticker", auto_adjust=True, threads=True)
 
         for stock in stocks:
             price = data[stock]["Close"].iloc[-1]
@@ -162,7 +162,7 @@ def display_data(df):
             "Current Price": "${:,.2f}",
             "Market Value": "${:,.2f}",
             "P&L": format_currency
-        }).applymap(color_text, subset = ["P&L"]), width = 1080, hide_index = True, column_config = {"Portfolio Allocation": None})
+        }).map(color_text, subset = ["P&L"]), width = 1080, hide_index = True, column_config = {"Portfolio Allocation": None})
 
         # Hide dataframe tools
         st.markdown(
