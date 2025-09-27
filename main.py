@@ -5,6 +5,7 @@ import numpy as np
 import plotly.graph_objects as go
 from streamlit_option_menu import option_menu
 
+
 # Allow the user to enter data and save as a CSV file
 def create_and_edit_csv():
     answer = st.selectbox("Would you like to create a new file or edit a previously downloaded file?", ["Create", "Edit"])
@@ -222,6 +223,8 @@ def main():
 
     if selected == "Home":
         st.header("Aurora PnL", divider = "blue", anchor = False)
+        st.text("Welcome to Aurora PnL! The main goal of this app is to calculate profit and losses across all of your portfolios without the need to upload" \
+        " brokerage statements containing sensitive information. Simply input/modify your data, download the CSV file, and upload it back to the app to see your results!")
     elif selected == "Download":
         st.header("Insert and download your data as a CSV file", divider = "blue", anchor = False)
         create_and_edit_csv()
