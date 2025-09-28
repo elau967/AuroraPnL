@@ -9,12 +9,11 @@ This project's goal is to make the calculating of PnL across different brokerage
 
 ## How to replicate this project
 
-###
-Prerequisites:
-    1. Python 3.11+
-    2. (OPTIONAL) Install uv by Astral: https://docs.astral.sh/uv/getting-started/installation/
+### Prerequisites:
+1. Python 3.11+
+2. (OPTIONAL) Install uv by Astral: https://docs.astral.sh/uv/getting-started/installation/
 
-###
+### Set up:
 1. Install and learn about Git if you haven't already: https://www.youtube.com/watch?v=hrTQipWp6co
 2. Clone this project using "git clone https://github.com/elau967/AuroraPnL" or through VS Code's source control: https://youtu.be/i_23KUAEtUM?si=mEwXZ_-V_nAQnwGt&t=343
 3. (OPTIONAL) Set up a virtual environment (follow uv docs if you installed uv): https://www.youtube.com/watch?v=GZbeL5AcTgw
