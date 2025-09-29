@@ -5,7 +5,7 @@
 This project's goal is to make the calculating of PnL across different brokerages (Robinhood, IBKR, Schwab, etc.) and account types (Standard, Roth IRA, Traditional IRA, etc.) much easier without having to log in to a service or share sensitive data. A CSV file will be read, which will provide the data for the calculating and showcasing of PnL. Although filling out a CSV file may be tedious, Aurora provides an alternative to logging into multiple accounts and having to import information. After filling out the CSV file, seeing the PnL will eventually just be a matter of a few clicks.
 
 ## Access the live app:
-(add link)
+https://aurorapnl.streamlit.app/
 
 ## How to replicate this project:
 
