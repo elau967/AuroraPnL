@@ -201,7 +201,7 @@ def display_contact_info():
                             <i class="bi bi-linkedin" style="color: #0A66C2; font-size: 2rem; margin-right: 10px;"></i>
                             <a href="https://www.linkedin.com/in/elau967">elau967</a>
                         </p>
-                        <p style="color: black; font-size: 32px;">
+                        <p style="color: white; font-size: 32px;">
                             <i class="bi bi-envelope" style="font-size: 2rem; margin-right: 10px"></i> 
                             <a href="mailto:elau967@gmail.com">elau967@gmail.com</a>
                         </p>"""
