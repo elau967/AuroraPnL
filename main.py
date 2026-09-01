@@ -5,18 +5,17 @@ import numpy as np
 import plotly.graph_objects as go
 from streamlit_option_menu import option_menu
 
-
 # Allow the user to enter data and save as a CSV file
 def create_and_edit_csv():
     answer = st.selectbox("Would you like to create a new file or edit a previously downloaded file?", ["Create", "Edit"])
-    expectedColumns = ["Ticker Symbol", "Cost Basis", "Amount of Shares"]
+    expected_columns = ["Ticker Symbol", "Cost Basis", "Amount of Shares"]
 
     if answer == "Create":
         # Create an empty dataframe
-        emptyFrame = pd.DataFrame(columns = expectedColumns)
+        empty_frame = pd.DataFrame(columns = expected_columns)
 
         # Allow user to input data into dataframe and validate it
-        st.data_editor(emptyFrame, width = 1080, hide_index = True, num_rows = "dynamic", column_config = {
+        st.data_editor(empty_frame, width = 1080, hide_index = True, num_rows = "dynamic", column_config = {
             "Ticker Symbol": st.column_config.TextColumn(
                 help = "Enter a ticker symbol such as AAPL", 
                 required = True,
@@ -34,12 +33,12 @@ def create_and_edit_csv():
             })
     else:
         # Prompt a user to upload a CSV file
-        uploadedFile = st.file_uploader("Upload your CSV file", type = "csv", label_visibility = "collapsed")
+        uploaded_file = st.file_uploader("Upload your CSV file", type = "csv", label_visibility = "collapsed")
 
         # If a CSV file is received, read it and replace the column headers and reformat "Ticker Symbol" values
-        if uploadedFile:
-            df = pd.read_csv(uploadedFile)
-            df.columns = expectedColumns
+        if uploaded_file:
+            df = pd.read_csv(uploaded_file)
+            df.columns = expected_columns
             df["Ticker Symbol"] = df["Ticker Symbol"].str.replace(" ", "").str.upper()
 
             # Replace invalid values with NaN
@@ -67,7 +66,7 @@ def create_and_edit_csv():
 
 # Get the current price of a stock
 def get_stock_price(df):
-    currentPrices = []
+    current_prices = []
     stocks = list(df["Ticker Symbol"])
      
     try:
@@ -75,9 +74,9 @@ def get_stock_price(df):
 
         for stock in stocks:
             price = data[stock]["Close"].iloc[-1]
-            currentPrices.append(round(price, 2))
+            current_prices.append(round(price, 2))
 
-        return currentPrices
+        return current_prices
    
     except IndexError:
         st.error(f'The ticker {stock} could not be found. Please go back and edit your file at the Download section.')
@@ -85,12 +84,12 @@ def get_stock_price(df):
 # Receive a CSV file and calculate and display data
 def upload_csv():
     # Prompt a user to upload a CSV file
-    uploadedFile = st.file_uploader("Upload your CSV file", type = "csv", label_visibility = "collapsed")
+    uploaded_file = st.file_uploader("Upload your CSV file", type = "csv", label_visibility = "collapsed")
 
     # If a CSV file is received, read it and assign data types
     try:
-        if uploadedFile:
-            df = pd.read_csv(uploadedFile, dtype = {"Ticker Symbol": str, "Cost Basis": float, "Amount of Shares": float})
+        if uploaded_file:
+            df = pd.read_csv(uploaded_file, dtype = {"Ticker Symbol": str, "Cost Basis": float, "Amount of Shares": float})
 
     # Catch invalid values in "Cost Basis" and "Amount of Shares" column
     except ValueError:
@@ -112,13 +111,13 @@ def upload_csv():
         df["Cost Basis"] = df["Total Cost"] / df["Amount of Shares"]
 
         # Get current prices of stocks
-        currentPrices = get_stock_price(df)
+        current_prices = get_stock_price(df)
 
         # Calculate new columns
-        df["Current Price"] = currentPrices
+        df["Current Price"] = current_prices
         df["Market Value"] = round((df["Current Price"] * df["Amount of Shares"]), 2)
-        totalMktVal = round(sum(df["Market Value"]), 2)
-        df["Portfolio Allocation"] = (df["Market Value"] / totalMktVal) * 100
+        total_mkt_val = round(sum(df["Market Value"]), 2)
+        df["Portfolio Allocation"] = (df["Market Value"] / total_mkt_val) * 100
         df["P&L"] = ((df["Current Price"] - df["Cost Basis"]) * df["Amount of Shares"])
 
         # Display the data
